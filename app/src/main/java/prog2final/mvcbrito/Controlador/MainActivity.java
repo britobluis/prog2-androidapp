@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText etModelo=findViewById(R.id.txtModelo);
         Button btEliminar=findViewById(R.id.btnEliminar);
         Button btActualizar=findViewById(R.id.btnActualizar);
-        etPlaca.setEnabled(false);
+        //etPlaca.setEnabled(false);
 
         //Se toman los mensajes enviados en el intent
         final int placa=getIntent().getIntExtra("Placa",0);
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         int eliminar= aDB3.eliminarAutomovil(String.valueOf(placa));
                         if(eliminar != -1){
                             Toast.makeText(MainActivity.this, "Producto eliminado exitosamente", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+                          //  onBackPressed();
                         }
                         break;
                     case R.id.btnActualizar:
@@ -79,11 +79,20 @@ public class MainActivity extends AppCompatActivity {
 
                         int modificar= aDB3.modificarAutomovil(new Automovil(cod,nomb,prec));
                         if (modificar != -1){
+
                             Toast.makeText(MainActivity.this, "Producto modificado exitosamente", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+                          //  onBackPressed();
                         }else{
                             Toast.makeText(MainActivity.this, "No se guardaron los cambios", Toast.LENGTH_SHORT).show();
                         }
+                        break;
+                    case R.id.btnGuardar:
+                        int placaAutomovil= Integer.parseInt(editPlaca.getText().toString());
+                        String marca=editMarca.getText().toString();
+                        String modelo=editModelo.getText().toString();
+
+                        long verificador= automovilDB.nuevoAutomovil(new Automovil(placaAutomovil,marca,modelo));
+                        llenarLista(lista,listaVacia);
                         break;
                 }
 
@@ -93,29 +102,21 @@ public class MainActivity extends AppCompatActivity {
         //Se le asigna el onclicklistener creado arriba a los dos botones
         btEliminar.setOnClickListener(buttonListener);
         btActualizar.setOnClickListener(buttonListener);
+        guardarBtn.setOnClickListener(buttonListener);//Se asigna click listener al boton Guardar
 
         //Se asignan los datos obtenidos desde el activity anterior a los editTexts
         etPlaca.setText(String.valueOf(placa));
         etMarca.setText(nombre);
-        etModelo.setText(String.valueOf(modelo));
+        //etModelo.setText(String.valueOf(modelo));
 
-        //Se asigna click listener al boton Guardar
-        guardarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int placaAutomovil= Integer.parseInt(editPlaca.getText().toString());
-                String marca=editMarca.getText().toString();
-                String modelo=editModelo.getText().toString();
 
-                long verificador= automovilDB.nuevoAutomovil(new Automovil(placaAutomovil,marca,modelo));
 
-            }
-        });
 
     }
     public void llenarLista(ListView lista, TextView textView){
         AutomovilDB aDB2 =new AutomovilDB(this);
         ArrayList<Automovil> automoviles= aDB2.MostrarAutomoviles();
+        System.out.println(automoviles.get(0).getmodelo());
 
         if (! automoviles.isEmpty()){
             textView.setVisibility(View.INVISIBLE);//Si hay producto en la bd,hace que el textView que indica lo contrario,no se muestre
@@ -131,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
         en cada item de la lista*/
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent= new Intent(getApplicationContext(),MainActivity.class);
+              /*  Intent intent= new Intent(getApplicationContext(),MainActivity.class);
                 Automovil a1 = adaptador.getItem(position);//Se crea un objeto a partir del item seleccionado
                 //Y se envian los datos a la activity Modificar
                 intent.putExtra("Placa",a1.getPlacaAutomovil());
                 intent.putExtra("Marca",a1.getmarca());
                 intent.putExtra("Modelo",a1.getmodelo());
                 //Inicia la activity modificar
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
     }

@@ -48,9 +48,9 @@ public class AutomovilAdaptador extends BaseAdapter{
             vista=inf.inflate(R.layout.item_lista,null);
         }
         Automovil auto=automoviles.get(position);
-        TextView placa=vista.findViewById(R.id.txtPlaca);
-        TextView marca=vista.findViewById(R.id.txtMarca);
-        TextView modelo=vista.findViewById(R.id.txtModelo);
+        TextView placa=vista.findViewById(R.id.txtNombre);
+        TextView marca=vista.findViewById(R.id.txtCodigo);
+        TextView modelo=vista.findViewById(R.id.txtPrecio);
 
         placa.setText("Placa: "+String.valueOf(auto.getPlacaAutomovil()));
         marca.setText("Marca: "+String.valueOf(auto.getmarca()));
