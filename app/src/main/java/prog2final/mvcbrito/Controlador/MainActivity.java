@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         String modelo=editModelo.getText().toString();
 
                         long verificador= automovilDB.nuevoAutomovil(new Automovil(placaAutomovil,marca,modelo));
-                        llenarLista(lista,listaVacia);
+                        llenarLista(lista,listaVacia);//Este método se llama para actualizar el contenido de la lista
                         break;
                 }
 
