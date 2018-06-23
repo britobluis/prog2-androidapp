@@ -54,7 +54,7 @@ public class AutomovilAdaptador extends BaseAdapter{
 
         placa.setText("Placa: "+String.valueOf(auto.getPlacaAutomovil()));
         marca.setText("Marca: "+String.valueOf(auto.getmarca()));
-        modelo.setText("Modelo: $"+String.valueOf(auto.getmodelo()) );
+        modelo.setText("Modelo: "+String.valueOf(auto.getmodelo()) );
         return vista;
 }
 }

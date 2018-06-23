@@ -20,6 +20,7 @@ import prog2final.mvcbrito.Datos.AutomovilDB;
 public class MainActivity extends AppCompatActivity {
     private ListView lista;
     private TextView listaVacia;
+    private EditText editPlaca,editMarca,editModelo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         final AutomovilDB automovilDB =new AutomovilDB(this);
         //Guardar inicial
-        final EditText editPlaca= findViewById(R.id.txtPlaca);
-        final EditText editMarca=findViewById(R.id.txtMarca);
-        final EditText editModelo =findViewById(R.id.txtModelo);
+        editPlaca= findViewById(R.id.txtPlaca);
+        editMarca=findViewById(R.id.txtMarca);
+        editModelo =findViewById(R.id.txtModelo);
         final Button guardarBtn=findViewById(R.id.btnGuardar);
 
         //Se asignan los elementos de la vista
@@ -65,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
                         if(eliminar != -1){
                             Toast.makeText(MainActivity.this, "Producto eliminado exitosamente", Toast.LENGTH_SHORT).show();
                           //  onBackPressed();
+
                         }
+                        llenarLista(lista,listaVacia);
                         break;
                     case R.id.btnActualizar:
                         int cod=Integer.parseInt(etPlaca.getText().toString());
@@ -82,15 +85,16 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Producto modificado exitosamente", Toast.LENGTH_SHORT).show();
                           //  onBackPressed();
+                            llenarLista(lista,listaVacia);
                         }else{
                             Toast.makeText(MainActivity.this, "No se guardaron los cambios", Toast.LENGTH_SHORT).show();
                         }
+
                         break;
                     case R.id.btnGuardar:
                         int placaAutomovil= Integer.parseInt(editPlaca.getText().toString());
                         String marca=editMarca.getText().toString();
                         String modelo=editModelo.getText().toString();
-
                         long verificador= automovilDB.nuevoAutomovil(new Automovil(placaAutomovil,marca,modelo));
                         llenarLista(lista,listaVacia);//Este método se llama para actualizar el contenido de la lista
                         break;
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     public void llenarLista(ListView lista, TextView textView){
         AutomovilDB aDB2 =new AutomovilDB(this);
         ArrayList<Automovil> automoviles= aDB2.MostrarAutomoviles();
-        System.out.println(automoviles.get(0).getmodelo());
+//        System.out.println(automoviles.get(0).getmodelo());
 
         if (! automoviles.isEmpty()){
             textView.setVisibility(View.INVISIBLE);//Si hay producto en la bd,hace que el textView que indica lo contrario,no se muestre
@@ -132,14 +136,17 @@ public class MainActivity extends AppCompatActivity {
         en cada item de la lista*/
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /*  Intent intent= new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent= new Intent(getApplicationContext(),MainActivity.class);
                 Automovil a1 = adaptador.getItem(position);//Se crea un objeto a partir del item seleccionado
-                //Y se envian los datos a la activity Modificar
+                /*//Y se envian los datos a la activity Modificar
                 intent.putExtra("Placa",a1.getPlacaAutomovil());
                 intent.putExtra("Marca",a1.getmarca());
                 intent.putExtra("Modelo",a1.getmodelo());
                 //Inicia la activity modificar
                 startActivity(intent);*/
+              editPlaca.setText(String.valueOf(a1.getPlacaAutomovil()));
+              editMarca.setText(a1.getmarca());
+              editModelo.setText(a1.getmodelo());
             }
         });
     }
